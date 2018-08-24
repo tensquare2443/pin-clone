@@ -1,4 +1,7 @@
-import {CREATE_PIN_FORM_CHANGE} from 'actions/types';
+import {
+  CREATE_PIN_FORM_CHANGE,
+  ERASE_CREATE_PIN_FORM
+} from 'actions/types';
 
 const defaultState = {
   url: {
@@ -19,6 +22,8 @@ export default function(state = defaultState, action) {
   switch (action.type) {
     case CREATE_PIN_FORM_CHANGE:
       return action.payload;
+    case ERASE_CREATE_PIN_FORM:
+      return defaultState;
     default:
       return state;
   }

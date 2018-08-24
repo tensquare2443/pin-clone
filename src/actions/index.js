@@ -8,16 +8,44 @@ import {
   SIGN_UP_VALIDATE,
   SIGN_UP_RESET,
   SIGN_IN,
+  SET_USER,
   LOG_IN_FORM_CHANGE,
   LOG_IN_FORM_RESET,
   INSERT_MODAL,
   REMOVE_MODAL,
   CREATE_PIN_FORM_CHANGE,
+  ERASE_CREATE_PIN_FORM,
   SET_PINS,
   REMOVE_PINS,
   SET_USERS,
-  REMOVE_USERS
+  REMOVE_USERS,
+  SET_PIN,
+  REMOVE_PIN,
+  SET_TOPICS,
+  REMOVE_TOPICS
 } from 'actions/types';
+
+export function setTopics(topics) {
+  if (!topics) {
+    return {type: REMOVE_TOPICS};
+  } else {
+    return {
+      type: SET_TOPICS,
+      payload: topics
+    };
+  }
+}
+
+export function setPin(pinToSet) {
+  if (!pinToSet) {
+    return {type: REMOVE_PIN};
+  } else {
+    return {
+      type: SET_PIN,
+      payload: pinToSet
+    };
+  }
+}
 
 export function setUsers(users) {
   if (users) {
@@ -42,10 +70,14 @@ export function setPins(pins) {
 }
 
 export function createPinFormChange(createPinForm) {
-  return {
-    type: CREATE_PIN_FORM_CHANGE,
-    payload: createPinForm
-  };
+  if (!createPinForm) {
+    return {type: ERASE_CREATE_PIN_FORM};
+  } else {
+    return {
+      type: CREATE_PIN_FORM_CHANGE,
+      payload: createPinForm
+    };
+  }
 }
 
 export function toggleModal(modal) {
@@ -67,6 +99,13 @@ export function logInFormChange(logInForm) {
   return {
     type: LOG_IN_FORM_CHANGE,
     payload: logInForm
+  };
+}
+
+export function setUser(user) {
+  return {
+    type: SET_USER,
+    payload: user
   };
 }
 

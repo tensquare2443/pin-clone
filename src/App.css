@@ -37,6 +37,13 @@ body {
     align-items: stretch; }
   body .align-items-baseline {
     align-items: baseline; }
+  @media screen and (min-width: 416px) {
+    body .d-xs-block {
+      display: block; }
+    body .d-xs-flex {
+      display: flex; }
+    body .d-xs-none {
+      display: none; } }
   @media screen and (min-width: 576px) {
     body .d-sm-block {
       display: block; }
@@ -71,7 +78,7 @@ body {
   body .f-bold {
     font-weight: bold; }
   body .bg-main {
-    background-color: #C92228; }
+    background-color: #C8232C; }
   body .form-input {
     padding: 10px;
     margin: 2px;
@@ -88,7 +95,7 @@ body {
     border-radius: 4px;
     border: 1px solid green; }
   body .btn-main {
-    background-color: #C92228;
+    background-color: #C8232C;
     border-radius: 4px;
     border: 1px solid #B81F24;
     font-weight: bold;
@@ -109,6 +116,127 @@ body {
     transition: all 0.2s; }
     body .btn-sec:hover {
       background-color: #E0E0E0; }
+  body .cancel-create-board-btn {
+    margin: 5px 7px 5px 5px;
+    background-color: #ECECEC;
+    border: 1px solid #ECECEC;
+    border-radius: 5px;
+    color: #373737;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer; }
+    body .cancel-create-board-btn:hover {
+      background-color: #E0E0E0;
+      border-color: #E0E0E0; }
+  body .submit-create-board-btn-disabled {
+    margin: 5px 5px 5px 7px;
+    background-color: #ECECEC;
+    border: 1px solid #ECECEC;
+    border-radius: 5px;
+    color: #373737;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    visibility: hidden; }
+    body .submit-create-board-btn-disabled:hover {
+      background-color: #E0E0E0;
+      border-color: #E0E0E0; }
+  body .submit-create-board-btn-active {
+    margin: 5px 5px 5px 7px;
+    background-color: #C8232C;
+    border: 1px solid #C8232C;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s; }
+    body .submit-create-board-btn-active:hover {
+      background-color: #B81F24;
+      border-color: #B81F24; }
+  body .create-board-name-group {
+    margin: 8px;
+    padding: 8px; }
+    body .create-board-name-group .create-board-name-label {
+      font-size: 13px; }
+    body .create-board-name-group .create-board-name-input {
+      width: 60%;
+      padding: 10px;
+      border: 1px solid #808080;
+      border-radius: 3px; }
+  body .create-pin-top-cont {
+    padding: 10px;
+    border-bottom: 1px solid #ECECEC;
+    font-size: 24px; }
+  body .create-pin-inner-cont {
+    background-color: white;
+    border: 1px solid #ECECEC;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    margin: auto; }
+  body .create-pin-input {
+    width: 87%;
+    border: 1px solid grey;
+    border-radius: 4px;
+    padding: 10px; }
+  body .create-pin-desc-input {
+    width: 87%;
+    height: 150px;
+    font-family: Arial;
+    border: 1px solid grey;
+    border-radius: 4px;
+    padding: 10px; }
+  body .home-content .home-item {
+    border-radius: 8px;
+    display: inline-block;
+    margin: 0 0 10px;
+    padding: 6px;
+    cursor: zoom-in;
+    transition: all 0.2s; }
+    body .home-content .home-item .home-item-overlay {
+      visibility: hidden;
+      position: absolute;
+      margin: 10px;
+      border-radius: 5px;
+      width: 200px; }
+      body .home-content .home-item .home-item-overlay .home-item-dropdown {
+        visibility: hidden;
+        border-radius: 5px;
+        background-color: #ECECEC;
+        cursor: pointer;
+        color: #373737;
+        font-size: 15px;
+        font-weight: bold; }
+        body .home-content .home-item .home-item-overlay .home-item-dropdown:hover {
+          background-color: #E0E0E0; }
+      body .home-content .home-item .home-item-overlay .home-item-save-button {
+        visibility: hidden;
+        background-color: #C8232C;
+        border: 1px solid #C8232C;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 10px;
+        cursor: pointer; }
+        body .home-content .home-item .home-item-overlay .home-item-save-button:hover {
+          background-color: #B81F24;
+          border-color: #B81F24; }
+    body .home-content .home-item .home-item-txt {
+      visibility: hidden;
+      font-size: 12px;
+      padding: 3px; }
+    body .home-content .home-item .home-item-img {
+      border-radius: 8px; }
+    body .home-content .home-item:hover {
+      background-color: #ECECEC; }
+      body .home-content .home-item:hover .home-item-overlay, body .home-content .home-item:hover .home-item-save-button, body .home-content .home-item:hover .home-item-dropdown, body .home-content .home-item:hover .home-item-txt {
+        visibility: visible; }
   body .sign-up-cont {
     background-color: white;
     border-radius: 8px;
@@ -241,7 +369,8 @@ body {
     max-width: 300px;
     background-color: #ECECEC;
     transition: all 0.2s;
-    margin: 10px; }
+    margin: 10px;
+    border-radius: 8px; }
     body .profile-content .topic-cont-sm:before {
       display: block;
       content: "";
@@ -272,6 +401,13 @@ body {
       body .profile-content .topic-cont-sm:hover .topic-subtitle {
         background-color: #D1D1D1;
         border: 1px solid #D1D1D1; }
+    body .profile-content .topic-cont-sm .topic-content-name {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 12px;
+      color: white;
+      font-weight: bold; }
     body .profile-content .topic-cont-sm .topic-inner-cont {
       background-color: blue;
       margin: 5px; }
@@ -289,6 +425,20 @@ body {
       body .profile-content .topic-cont-sm .topic-subtitle:hover {
         background-color: #C4C4C4;
         border: 1px solid #C4C4C4; }
+    body .profile-content .topic-cont-sm .topic-subtitle-unfollow {
+      cursor: pointer;
+      margin: 15px;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 17px;
+      color: white;
+      background-color: #C8232C;
+      border: 1px solid #C8232C;
+      border-radius: 3px;
+      transition: all 0.2s; }
+      body .profile-content .topic-cont-sm .topic-subtitle-unfollow:hover {
+        background-color: #B81F24;
+        border: 1px solid #B81F24; }
   body .profile-content .topic-cont-lg {
     position: relative;
     cursor: pointer;
@@ -296,7 +446,8 @@ body {
     max-width: 90%;
     background-color: #ECECEC;
     transition: all 0.2s;
-    margin: 10px; }
+    margin: 10px;
+    border-radius: 8px; }
     body .profile-content .topic-cont-lg:before {
       display: block;
       content: "";
@@ -327,6 +478,12 @@ body {
       body .profile-content .topic-cont-lg:hover .topic-subtitle {
         background-color: #D1D1D1;
         border: 1px solid #D1D1D1; }
+    body .profile-content .topic-cont-lg .topic-content-name {
+      position: absolute;
+      top: 180px;
+      left: 10px;
+      color: white;
+      font-weight: bold; }
     body .profile-content .topic-cont-lg .topic-inner-cont {
       background-color: blue;
       margin: 5px; }
@@ -344,6 +501,20 @@ body {
       body .profile-content .topic-cont-lg .topic-subtitle:hover {
         background-color: #C4C4C4;
         border: 1px solid #C4C4C4; }
+    body .profile-content .topic-cont-lg .topic-subtitle-unfollow {
+      cursor: pointer;
+      margin: 15px;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 17px;
+      color: white;
+      background-color: #C8232C;
+      border: 1px solid #C8232C;
+      border-radius: 3px;
+      transition: all 0.2s; }
+      body .profile-content .topic-cont-lg .topic-subtitle-unfollow:hover {
+        background-color: #B81F24;
+        border: 1px solid #B81F24; }
   body .following-content .following-back-button-lg {
     margin: 5px 5px 5px 15px;
     padding: 12px;
@@ -380,8 +551,8 @@ body {
     body .following-content .following-people-cont-sm .following-people-button-sm {
       width: 100%;
       color: white;
-      background-color: #C92228;
-      border: 1px solid #C92228;
+      background-color: #C8232C;
+      border: 1px solid #C8232C;
       border-radius: 5px;
       font-size: 18px;
       font-weight: bold;
@@ -400,8 +571,8 @@ body {
     body .following-content .following-people-cont-lg .following-people-button-lg {
       width: 100%;
       color: white;
-      background-color: #C92228;
-      border: 1px solid #C92228;
+      background-color: #C8232C;
+      border: 1px solid #C8232C;
       border-radius: 5px;
       font-size: 18px;
       font-weight: bold;
@@ -431,8 +602,8 @@ body {
         font-weight: bold;
         padding: 10px;
         border-radius: 4px;
-        border: 1px solid #C92228;
-        background-color: #C92228;
+        border: 1px solid #C8232C;
+        background-color: #C8232C;
         cursor: pointer;
         transition: all 0.2s; }
         body .following-content .following-rec-cont .following-rec-item-cont .rec-follow-button:hover {
@@ -493,8 +664,8 @@ body {
     margin-top: 50px; }
   body .follow-button {
     width: 100%;
-    background-color: #C92228;
-    border: 1px solid #C92228;
+    background-color: #C8232C;
+    border: 1px solid #C8232C;
     border-radius: 5px;
     color: white;
     font-size: 15px;
@@ -503,3 +674,54 @@ body {
     cursor: pointer; }
     body .follow-button:hover {
       background-color: #B81F24; }
+  body .pin-route-outer-cont {
+    background-color: #ECECEC; }
+    body .pin-route-outer-cont .pin-route-back-cont .pin-route-back-txt {
+      font-size: 18px;
+      font-weight: bold;
+      color: black;
+      cursor: pointer; }
+    body .pin-route-outer-cont .pin-route-cont {
+      background-color: white;
+      width: 90%;
+      max-width: 550px;
+      margin: auto;
+      padding: 10px;
+      border-radius: 10px; }
+      body .pin-route-outer-cont .pin-route-cont .pin-route-img-cont {
+        margin: 8px; }
+        body .pin-route-outer-cont .pin-route-cont .pin-route-img-cont .pin-route-img {
+          border-radius: 8px; }
+      body .pin-route-outer-cont .pin-route-cont .pin-route-top-section {
+        padding: 0px;
+        margin: 4px 8px 12px 8px; }
+        body .pin-route-outer-cont .pin-route-cont .pin-route-top-section .pin-route-save-button {
+          background-color: #C8232C;
+          border: 1px solid #C8232C;
+          border-radius: 5px;
+          color: white;
+          font-size: 15px;
+          font-weight: bold;
+          padding: 10px;
+          cursor: pointer; }
+          body .pin-route-outer-cont .pin-route-cont .pin-route-top-section .pin-route-save-button:hover {
+            background-color: #B81F24;
+            border-color: #B81F24; }
+      body .pin-route-outer-cont .pin-route-cont .pin-route-bottom-section .pin-route-url-cont {
+        margin: 8px; }
+        body .pin-route-outer-cont .pin-route-cont .pin-route-bottom-section .pin-route-url-cont .pin-route-url-button {
+          background-color: #ECECEC;
+          border: 1px solid #ECECEC;
+          border-radius: 5px;
+          color: #373737;
+          font-size: 15px;
+          font-weight: bold;
+          padding: 10px;
+          cursor: pointer; }
+          body .pin-route-outer-cont .pin-route-cont .pin-route-bottom-section .pin-route-url-cont .pin-route-url-button:hover {
+            background-color: #ECECEC;
+            border-color: #ECECEC; }
+      body .pin-route-outer-cont .pin-route-cont .pin-route-bottom-section .pin-route-bottom-section-row {
+        border-top: 1px solid #ECECEC;
+        border-bottom: 1px solid #ECECEC;
+        margin: 18px 8px 8px 8px; }

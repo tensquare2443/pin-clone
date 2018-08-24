@@ -5,6 +5,18 @@ import * as actions from 'actions';
 import TopNav from 'components/top-nav';
 
 class Home extends Component {
+  createPinRedirect(e) {
+    const _id = e.currentTarget.dataset.id;
+    var pinToSet;
+    this.props.allPins.forEach((pin) => {
+      if (pin._id === _id) {
+        pinToSet = pin;
+      }
+    });
+
+    this.props.createRedirect(`pin/${_id}`);
+    this.props.setPin(pinToSet);
+  }
   componentWillUnmount() {
     this.props.setPins();
   }
@@ -37,10 +49,35 @@ class Home extends Component {
 
     const pinsMapped = (pins) => {
       return pins.map((pin, index) => {
+        const imgs = {
+          0: 'charger',
+          1: 'house',
+          2: 'tall-tree'
+        };
+        const img = imgs[Math.floor(Math.random()*3)];
+        // const urlFormatted = (url) => {
+        //   url = url.replace('http://', '');
+        //   url = url.replace('https://', '');
+        //   url = url.replace('www.', '');
+        //   return url.split('/')[0];
+        // }
         return (
-          <div key={index.toString()} style={{backgroundColor: "green", width: '200px'}}>
-            <div>{pin.url}</div>
-            <div>{pin.description}</div>
+          <div
+            onClick={this.createPinRedirect.bind(this)}
+            key={index}
+            data-id={pin._id}
+            className="home-item"
+          >
+            <div className="home-item-overlay">
+              <div className="d-flex flex-row justify-content-end">
+                <button className="home-item-save-button">Save</button>
+              </div>
+            </div>
+            <img className="home-item-img" src={require(`../img/samples/${img}.jpg`)} width="100%" alt=""/>
+            <div className="home-item-txt">
+
+              Picked for you
+            </div>
           </div>
         );
       });
@@ -50,11 +87,57 @@ class Home extends Component {
     return(
       <div>
         <TopNav/>
-        {this.props.allPins ?
-          <div className="d-flex flex-row flex-wrap">
-            {pinsMapped(this.props.allPins)}
-          </div>
-        : <p className="no-pins-msg">No pins yet!</p>}
+        <div className="home-content">
+          {this.props.allPins ?
+            <div style={{margin: '10px 5px 10px 5px'}}>
+              <div
+                className="d-block d-sm-none"
+                style={{
+                  columnCount: 1,
+                  columnGap: '10px',
+                  width: "240px",
+                  maxWidth: "100%",
+                  margin: "auto"
+                }}
+              >
+                {pinsMapped(this.props.allPins)}
+              </div>
+              <div
+                className="d-none d-sm-block d-md-none"
+                style={{
+                  columnCount: 2,
+                  columnGap: '10px',
+                  width: "480px",
+                  margin: "auto"
+                }}
+              >
+                {pinsMapped(this.props.allPins)}
+              </div>
+              <div
+                className="d-none d-md-block d-lg-none"
+                style={{
+                  columnCount: 3,
+                  columnGap: '10px',
+                  width: "720px",
+                  margin: "auto"
+                }}
+              >
+                {pinsMapped(this.props.allPins)}
+              </div>
+              <div
+                className="d-none d-lg-block"
+                style={{
+                  columnCount: 4,
+                  columnGap: '10px',
+                  width: "960px",
+                  margin: "auto"
+                }}
+              >
+                {pinsMapped(this.props.allPins)}
+              </div>
+            </div>
+          : <p className="no-pins-msg">No pins yet!</p>}
+        </div>
       </div>
     );
   }

@@ -1,19 +1,13 @@
 import {
-  SIGN_IN,
-  SIGN_OUT,
-  SET_USER
+  SET_PIN,
+  REMOVE_PIN
 } from 'actions/types';
 
 export default function(state = false, action) {
   switch (action.type) {
-    case SIGN_IN:
-    //sign in here
+    case SET_PIN:
       return action.payload;
-    case SET_USER:
-      //set user here
-        return action.payload;
-    case SIGN_OUT:
-    //sign out here
+    case REMOVE_PIN:
       return false;
     default:
       return state;

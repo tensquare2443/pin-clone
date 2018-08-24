@@ -5,6 +5,7 @@ const cors = require('cors');
 var mongoose = require("./db/mongoose");
 var {User} = require('../server/models/user');
 var {Pin} = require('../server/models/pin');
+var {Topic} = require('../server/models/topic');
 
 var app = express();
 var port = 3001;
@@ -15,6 +16,42 @@ app.use(cors());
 
 var multer = require('multer');
 var upload = multer();
+
+app.post('/user/update', (req, res) => {
+  var user = req.body.user;
+  var _id = user._id;
+
+  User.findByIdAndUpdate(_id, user, {new: true}).then((userDoc) => {
+    res.send({userDoc});
+  }).catch((e) => {
+    console.log({e});
+
+    res.send({e});
+  });
+});
+
+app.get('/topics', (req, res) => {
+  Topic.find({}).then((topicDocs) => {
+    res.send({topicDocs});
+  }).catch((e) => {
+    console.log({e});
+    res.send({e});
+  });
+});
+
+app.get('/topics/new/:topic', (req, res) => {
+  var topic = new Topic({
+    name: req.params.topic
+  });
+
+  topic.save().then((topicDoc) => {
+    if (!topicDoc) {return res.send({error: 404});}
+    res.send({topicDoc});
+  }).catch((e) => {
+    console.log({e});
+    res.send({e});
+  })
+});
 
 app.post('/pins/filter', (req, res) => {
 

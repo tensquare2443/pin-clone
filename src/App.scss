@@ -3,6 +3,7 @@ $break-sm: 576px;
 $break-md: 768px;
 $break-lg: 992px;
 $main-red: #C92228;
+$main-red: #C8232C;
 $main-red-dark: #B81F24;
 $main-grey: #ECECEC;
 $main-grey-dark: #E0E0E0;
@@ -95,6 +96,17 @@ body {
   }
   .align-items-baseline {
     align-items: baseline;
+  }
+  @media screen and (min-width: $break-xs) {
+    .d-xs-block {
+      display: block;
+    }
+    .d-xs-flex {
+      display: flex;
+    }
+    .d-xs-none {
+      display: none;
+    }
   }
   @media screen and (min-width: $break-sm) {
     .d-sm-block {
@@ -193,6 +205,162 @@ body {
     &:hover {
       background-color: $main-grey-dark;
     }
+  }
+
+  .cancel-create-board-btn {
+    margin: 5px 7px 5px 5px;
+    background-color: $main-grey;
+    border: 1px solid $main-grey;
+    border-radius: 5px;
+    color: $main-black;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: $main-grey-dark;
+      border-color: $main-grey-dark;
+    }
+  }
+  .submit-create-board-btn-disabled {
+    margin: 5px 5px 5px 7px;
+    background-color: $main-grey;
+    border: 1px solid $main-grey;
+    border-radius: 5px;
+    color: $main-black;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    visibility: hidden;
+    &:hover {
+      background-color: $main-grey-dark;
+      border-color: $main-grey-dark;
+    }
+  }
+  .submit-create-board-btn-active {
+    margin: 5px 5px 5px 7px;
+    background-color: $main-red;
+    border: 1px solid $main-red;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover {
+      background-color: $main-red-dark;
+      border-color: $main-red-dark;
+    }
+  }
+
+  .create-board-name-group {
+    margin: 8px;
+    padding: 8px;
+    .create-board-name-label {
+      font-size: 13px;
+    }
+    .create-board-name-input {
+      width: 60%;
+      padding: 10px;
+      border: 1px solid $main-grey-darker;
+      border-radius: 3px;
+    }
+  }
+
+  .create-pin-top-cont {
+    padding: 10px;
+    border-bottom: 1px solid #ECECEC;
+    font-size: 24px;
+  }
+  .create-pin-inner-cont {
+    background-color: white;
+    border: 1px solid #ECECEC;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+  }
+  .create-pin-input {
+    width: 87%;
+    border: 1px solid grey;
+    border-radius: 4px;
+    padding: 10px;
+  }
+  .create-pin-desc-input {
+    width: 87%;
+    height: 150px;
+    font-family: Arial;
+    border: 1px solid grey;
+    border-radius: 4px;
+    padding: 10px;
+  }
+
+
+
+  .home-content {
+    .home-item {
+      border-radius: 8px;
+      display: inline-block;
+      margin: 0 0 10px;
+      padding: 6px;
+      cursor: zoom-in;
+      transition: all 0.2s;
+      .home-item-overlay {
+        visibility: hidden;
+        position: absolute;
+        margin: 10px;
+        border-radius: 5px;
+        width: 200px;
+
+        .home-item-dropdown {
+          visibility: hidden;
+          border-radius: 5px;
+          background-color: $main-grey;
+          cursor: pointer;
+          color: $main-black;
+          font-size: 15px;
+          font-weight: bold;
+          &:hover {
+            background-color: $main-grey-dark;
+          }
+        }
+        .home-item-save-button {
+          visibility: hidden;
+          background-color: $main-red;
+          border: 1px solid $main-red;
+          border-radius: 5px;
+          color: white;
+          font-size: 15px;
+          font-weight: bold;
+          padding: 10px;
+          cursor: pointer;
+          &:hover {
+            background-color: $main-red-dark;
+            border-color: $main-red-dark;
+          }
+        }
+      }
+      .home-item-txt {
+        visibility: hidden;
+        font-size: 12px;
+        padding: 3px;
+      }
+      .home-item-img {
+        border-radius: 8px;
+      }
+
+      &:hover {
+        background-color: $main-grey;
+        .home-item-overlay, .home-item-save-button, .home-item-dropdown, .home-item-txt {
+          visibility: visible;
+        }
+      }
+    }
+
+
   }
 
   .sign-up-cont {
@@ -333,6 +501,7 @@ body {
       background-color: $main-grey;
       transition: all 0.2s;
       margin: 10px;
+      border-radius: 8px;
       &:hover {
         background-color: $main-grey-dark;
         .content {
@@ -342,6 +511,14 @@ body {
           background-color: #D1D1D1;
           border: 1px solid #D1D1D1;
         }
+      }
+      .topic-content-name {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        font-size: 12px;
+        color: white;
+        font-weight: bold;
       }
       .topic-inner-cont {
         background-color: blue;
@@ -361,6 +538,22 @@ body {
         &:hover {
           background-color: #C4C4C4;
           border: 1px solid #C4C4C4;
+        }
+      }
+      .topic-subtitle-unfollow {
+        cursor: pointer;
+        margin: 15px;
+        padding: 10px;
+        font-weight: bold;
+        font-size: 17px;
+        color: white;
+        background-color: $main-red;
+        border: 1px solid $main-red;
+        border-radius: 3px;
+        transition: all 0.2s;
+        &:hover {
+          background-color: $main-red-dark;
+          border: 1px solid $main-red-dark;
         }
       }
     }
@@ -373,6 +566,7 @@ body {
       background-color: $main-grey;
       transition: all 0.2s;
       margin: 10px;
+      border-radius: 8px;
       &:hover {
         background-color: $main-grey-dark;
         .content {
@@ -383,6 +577,15 @@ body {
           border: 1px solid #D1D1D1;
         }
       }
+
+      .topic-content-name {
+        position: absolute;
+        top: 180px;
+        left: 10px;
+        color: white;
+        font-weight: bold;
+      }
+
       .topic-inner-cont {
         background-color: blue;
         margin: 5px;
@@ -401,6 +604,22 @@ body {
         &:hover {
           background-color: #C4C4C4;
           border: 1px solid #C4C4C4;
+        }
+      }
+      .topic-subtitle-unfollow {
+        cursor: pointer;
+        margin: 15px;
+        padding: 10px;
+        font-weight: bold;
+        font-size: 17px;
+        color: white;
+        background-color: $main-red;
+        border: 1px solid $main-red;
+        border-radius: 3px;
+        transition: all 0.2s;
+        &:hover {
+          background-color: $main-red-dark;
+          border: 1px solid $main-red-dark;
         }
       }
     }
@@ -587,9 +806,6 @@ body {
     font-size: 16px;
     font-weight: bold;
   }
-
-
-
   .no-pins-msg {
     font-size: 16px;
     text-align: center;
@@ -608,6 +824,79 @@ body {
     cursor: pointer;
     &:hover {
       background-color: $main-red-dark;
+    }
+  }
+
+
+
+
+  .pin-route-outer-cont {
+    background-color: $main-grey;
+
+    .pin-route-back-cont {
+      .pin-route-back-txt {
+        font-size: 18px;
+        font-weight: bold;
+        color: black;
+        cursor: pointer;
+      }
+    }
+
+    .pin-route-cont {
+      background-color: white;
+      width: 90%;
+      max-width: 550px;
+      margin: auto;
+      padding: 10px;
+      border-radius: 10px;
+      .pin-route-img-cont {
+        margin: 8px;
+        .pin-route-img {
+          border-radius: 8px;
+        }
+      }
+      .pin-route-top-section {
+        padding: 0px;
+        margin: 4px 8px 12px 8px;
+        .pin-route-save-button {
+          background-color: $main-red;
+          border: 1px solid $main-red;
+          border-radius: 5px;
+          color: white;
+          font-size: 15px;
+          font-weight: bold;
+          padding: 10px;
+          cursor: pointer;
+          &:hover {
+            background-color: $main-red-dark;
+            border-color: $main-red-dark;
+          }
+        }
+      }
+      .pin-route-bottom-section {
+        .pin-route-url-cont {
+          margin: 8px;
+          .pin-route-url-button {
+            background-color: $main-grey;
+            border: 1px solid $main-grey;
+            border-radius: 5px;
+            color: $main-black;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 10px;
+            cursor: pointer;
+            &:hover {
+              background-color: $main-grey;
+              border-color: $main-grey;
+            }
+          }
+        }
+        .pin-route-bottom-section-row {
+          border-top: 1px solid $main-grey;
+          border-bottom: 1px solid $main-grey;
+          margin: 18px 8px 8px 8px;
+        }
+      }
     }
   }
 
