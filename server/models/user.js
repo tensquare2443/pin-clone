@@ -27,6 +27,30 @@ var UserSchema = new mongoose.Schema({
   }],
   pins: [{
     type: String
+  }],
+  boards: [{
+    name: {
+      type: String
+    },
+    followers: [{
+      type: String
+    }],
+    pins: [{
+      image: {
+        data: Buffer,
+        contentType: String
+      },
+      url: {
+        type: String
+      },
+      description: {
+        type: String
+      },
+      comments: [{
+        comment: {type: String},
+        user: {type: String}
+      }]
+    }]
   }]
 });
 

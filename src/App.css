@@ -324,8 +324,8 @@ body {
   body .profile-content .create-cont {
     position: relative;
     width: 90%;
-    max-width: 300px;
     margin: auto;
+    max-width: 300px;
     background-color: #ECECEC; }
     body .profile-content .create-cont:before {
       display: block;
@@ -358,6 +358,47 @@ body {
       background-color: blue;
       margin: 5px; }
     body .profile-content .create-cont .create-subtitle {
+      margin: 15px;
+      font-weight: bold;
+      font-size: 17px;
+      color: #808080; }
+  body .profile-content .boards-mapped-cont .create-cont {
+    position: relative;
+    width: 90%;
+    margin: 10px;
+    max-width: 300px;
+    background-color: #ECECEC; }
+    body .profile-content .boards-mapped-cont .create-cont:before {
+      display: block;
+      content: "";
+      width: 100%;
+      padding-top: 75%; }
+    body .profile-content .boards-mapped-cont .create-cont > .content.create-cont-content {
+      margin: 10px;
+      background-color: #E0E0E0;
+      height: 70%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0; }
+    body .profile-content .boards-mapped-cont .create-cont > .content.topic-cont-content {
+      margin: 10px;
+      background-color: #E0E0E0;
+      height: 70%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0; }
+    body .profile-content .boards-mapped-cont .create-cont:hover {
+      background-color: #E0E0E0; }
+      body .profile-content .boards-mapped-cont .create-cont:hover .content {
+        background-color: #808080; }
+    body .profile-content .boards-mapped-cont .create-cont .create-inner-cont {
+      background-color: blue;
+      margin: 5px; }
+    body .profile-content .boards-mapped-cont .create-cont .create-subtitle {
       margin: 15px;
       font-weight: bold;
       font-size: 17px;

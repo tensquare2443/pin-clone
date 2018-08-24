@@ -472,8 +472,8 @@ body {
     .create-cont {
       @include aspect-ratio(4, 3);
       width: 90%;
-      max-width: 300px;
       margin: auto;
+      max-width: 300px;
       background-color: $main-grey;
       &:hover {
         background-color: $main-grey-dark;
@@ -492,6 +492,37 @@ body {
         color: $main-grey-darker;
       }
     }
+
+
+    .boards-mapped-cont {
+      .create-cont {
+        @include aspect-ratio(4, 3);
+        width: 90%;
+        margin: 10px;
+        max-width: 300px;
+        background-color: $main-grey;
+        &:hover {
+          background-color: $main-grey-dark;
+          .content {
+            background-color: $main-grey-darker;
+          }
+        }
+        .create-inner-cont {
+          background-color: blue;
+          margin: 5px;
+        }
+        .create-subtitle {
+          margin: 15px;
+          font-weight: bold;
+          font-size: 17px;
+          color: $main-grey-darker;
+        }
+      }
+    }
+
+
+
+
 
     .topic-cont-sm {
       @include aspect-ratio(4, 3);

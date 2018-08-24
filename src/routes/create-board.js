@@ -11,6 +11,32 @@ class CreateBoard extends Component {
     };
     this.nameInputChange = this.nameInputChange.bind(this);
   }
+  formSubmit(e) {
+    e.preventDefault();
+    var board = this.state.createBoardNameInput;
+    var user = JSON.parse(JSON.stringify(this.props.user));
+
+    fetch('http://localhost:3001/board/new', {
+      method: "POST",
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({board, user})
+    }).then((res) => res.json()).then((json) => {
+      if (json.e) {
+        if (json.e.message.includes('duplicate key error')) {
+          return alert('Board name already in use!');
+        } else alert('Error. Cannot save board!');
+      }
+
+      if (json.userDoc) {
+        this.props.setUser(json.userDoc);
+        this.props.createRedirect(`profile/${this.props.user.email}/boards`);
+        this.setState({createBoardNameInput: ''});
+      }
+    }).catch((e) => alert(`e: ${e}`));
+  }
   componentDidMount() {
     document.getElementsByTagName('body')[0].style.backgroundColor = '#ECECEC';
   }
@@ -59,7 +85,7 @@ class CreateBoard extends Component {
             <div className="m-reg p-reg">Create Board</div>
           </div>
 
-          <form>
+          <form onSubmit={this.formSubmit.bind(this)}>
             <div className="create-board-name-group d-flex flex-row justify-content-between align-items-center">
               <label className="create-board-name-label" htmlFor="createBoardNameInput">Name</label>
               <input

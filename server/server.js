@@ -6,6 +6,7 @@ var mongoose = require("./db/mongoose");
 var {User} = require('../server/models/user');
 var {Pin} = require('../server/models/pin');
 var {Topic} = require('../server/models/topic');
+var {Board} = require('../server/models/board');
 
 var app = express();
 var port = 3001;
@@ -16,6 +17,36 @@ app.use(cors());
 
 var multer = require('multer');
 var upload = multer();
+
+app.post('/board/new', (req, res) => {
+  var board = new Board({
+    name: req.body.board,
+    creator: req.body.user.email,
+    followers: [req.body.user.email],
+    pins: []
+  });
+
+  board.save().then((boardDoc) => {
+    if (!boardDoc) {return res.send({error: 404});}
+
+    var user = req.body.user;
+    if (!user.boards) {
+      user.boards = [boardDoc];
+    } else {
+      user.boards.push(boardDoc);
+    }
+
+    return User.findByIdAndUpdate(user._id, user, {new: true});
+  }).then((userDoc) => {
+    if (!userDoc) {return res.send({error: 404});}
+
+    res.send({userDoc});
+  }).catch((e) => {
+    console.log({e});
+
+    res.send({e});
+  })
+});
 
 app.post('/user/update', (req, res) => {
   var user = req.body.user;

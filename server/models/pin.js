@@ -15,7 +15,8 @@ var PinSchema = new mongoose.Schema({
     maxLength: 1024
   },
   comments: [{
-    type: String
+    comment: {type: String},
+    user: {type: String}
   }]
 });
 //make comments array Strings 'object ids' that reference comments in a different model
