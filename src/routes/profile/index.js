@@ -7,8 +7,12 @@ import Boards from 'routes/profile/boards';
 import Pins from 'routes/profile/pins';
 import Tries from 'routes/profile/tries';
 import Topics from 'routes/profile/topics';
+import ProfilePhotoModal from 'components/profile-photo-modal';
 
 class Profile extends Component {
+  openProfilePhotoModal() {
+    this.props.toggleProfilePhotoModal('open');
+  }
   render() {
     if (this.props.redirect && this.props.redirect.includes('profile')) {
       this.props.removeRedirect();
@@ -30,11 +34,22 @@ class Profile extends Component {
       }
     };
 
+    var profilePhoto = () => {
+      if (this.props.user.photo) {
+        return this.props.user.photo;
+      } else {
+        return require('../../img/profile-unknown.png');
+      }
+    };
+
     return(
       <div className="profile-content">
-
+        {this.props.profilePhotoModal ?
+          <div className="profile-photo-modal-cont">
+            <ProfilePhotoModal/>
+          </div>
+        : null}
         <TopNav/>
-
         <div
           className="d-none d-sm-flex flex-row flex-wrap justify-content-between"
           style={{maxWidth: "800px", padding: "60px", margin: "auto"}}
@@ -44,7 +59,14 @@ class Profile extends Component {
             <div style={{paddingTop: "3px", fontSize: "13px", fontWeight: "bold"}}>0 followers &bull; 0 following</div>
           </div>
           <div>
-            <img src={require('../../img/profile-unknown.png')} alt="" height="100px" width="100px"/>
+            <img
+              onClick={this.openProfilePhotoModal.bind(this)}
+              src={profilePhoto()}
+              className="profile-photo"
+              alt=""
+              height="110px"
+              width="110px"
+            />
           </div>
         </div>
 
@@ -55,7 +77,7 @@ class Profile extends Component {
             <div style={{paddingTop: "3px", fontSize: "12px", fontWeight: "bold"}}>0 following</div>
           </div>
           <div style={{padding: "20px"}}>
-            <img src={require('../../img/profile-unknown.png')} alt="" height="70px" width="70px"/>
+            <img src={profilePhoto()} alt="" className="profile-photo" height="70px" width="70px"/>
           </div>
         </div>
 
@@ -109,7 +131,8 @@ class Profile extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    redirect: state.redirect
+    redirect: state.redirect,
+    profilePhotoModal: state.profilePhotoModal
   };
 }
 

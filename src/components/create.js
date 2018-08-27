@@ -24,7 +24,11 @@ class Create extends Component {
           <div className="content create-cont-content d-flex justify-content-center align-items-center">
             <img src={require(`../img/plus-black.png`)} width="50px" height="50px" alt=""/>
           </div>
-          <div className="create-subtitle">{this.props.subtitle}</div>
+          {this.props.subtitle === 'Create Pin' ?
+            null
+          :
+            <div className="create-subtitle">{this.props.subtitle}</div>
+          }
         </Link>
     );
   }

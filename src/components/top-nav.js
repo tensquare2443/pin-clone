@@ -14,19 +14,37 @@ class TopNav extends Component {
     this.searchBarChange = this.searchBarChange.bind(this);
     this.searchSubmit = this.searchSubmit.bind(this);
   }
+  goHomeAndUnfilter() {
+    fetch('http://localhost:3001/pins/get', {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => response.json()).then((json) => {
+      this.props.setPins(json.pinDocs);
+      this.props.createRedirect('home');
+      this.setState({searchBar: ''});
+    }).catch((e) => alert(`e: ${e}`));
+  }
   searchBarChange(e) {
     const searchBar = e.currentTarget.value;
     this.setState({searchBar});
   }
   searchSubmit(e) {
     e.preventDefault();
-    // alert(this.state.searchBar);
-    const searchBar = this.state.searchBar;
+    const filterCriteria = this.state.searchBar;
+
     fetch('http://localhost:3001/pins/filter', {
-      method: 'POST',
-      body: {searchBar}
-    }).then((response) => response.json()).then((json) => {
-      alert(JSON.stringify(json));
+      method: "POST",
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({filterCriteria})
+    }).then((res) => res.json()).then((json) => {
+      this.props.setPins(json.allPinDocs);
+      this.props.createRedirect('home');
     }).catch((e) => alert(`e: ${e}`));
   }
 
@@ -48,14 +66,14 @@ class TopNav extends Component {
       } else return 'nav-button';
     };
     return (
-      <div>
+      <div style={{position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1}}>
         <div className="top-nav d-flex flex-row align-items-center" style={{
           height: '63px',
           borderBottom: '1px solid #ECECEC'
         }}>
-          <Link to="/home" style={{textDecoration: "none"}}>
+          <div onClick={this.goHomeAndUnfilter.bind(this)} style={{cursor: 'pointer'}}>
             <img style={{margin: "22px"}} src={require('../img/pinterest-logo.png')} width="28px" height="28px" alt=""/>
-          </Link>
+          </div>
           <form onSubmit={this.searchSubmit.bind(this)} className="d-none d-sm-block">
             <input
               onChange={this.searchBarChange}
@@ -66,9 +84,9 @@ class TopNav extends Component {
             />
           </form>
           <div className="d-none d-sm-block" style={{margin: "22px", marginLeft: "auto"}}>
-            <Link to="/home" >
+            <div onClick={this.goHomeAndUnfilter.bind(this)} style={{textDecoration: 'none', display: 'inline-block'}}>
               <button className={buttonClass('/home')}>Home</button>
-            </Link>
+            </div>
             <Link to="/following" style={{textDecoration: "none"}}>
               <button className={buttonClass('/following')}>Following</button>
             </Link>
@@ -88,9 +106,9 @@ class TopNav extends Component {
             <form onSubmit={this.searchSubmit.bind(this)} className="top-nav-dropdown-search-cont">
               <input onChange={this.searchBarChange} value={this.state.searchBar} className="top-nav-dropdown-search-bar" placeholder="Search" type="text"/>
             </form>
-            <Link to="/home" >
+            <div onClick={this.goHomeAndUnfilter.bind(this)} style={{textDecoration: 'none'}}>
               <button className="top-nav-dropdown-button">Home</button>
-            </Link>
+            </div>
             <Link to="/following" style={{textDecoration: "none"}}>
               <button className="top-nav-dropdown-button">Following</button>
             </Link>

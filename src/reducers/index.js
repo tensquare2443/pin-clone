@@ -9,6 +9,11 @@ import allPinsReducer from 'reducers/all-pins';
 import usersReducer from 'reducers/users';
 import pinReducer from 'reducers/pin';
 import topicsReducer from 'reducers/topics';
+import prevReducer from 'reducers/prev';
+import boardReducer from 'reducers/board';
+import profilePhotoModalReducer from 'reducers/profile-photo-modal';
+import onBoardReducer from 'reducers/on-board';
+import editBoardModalReducer from 'reducers/edit-board-modal';
 
 export default combineReducers({
   user: userReducer,
@@ -20,5 +25,10 @@ export default combineReducers({
   allPins: allPinsReducer,
   users: usersReducer,
   pin: pinReducer,
-  topics: topicsReducer
+  board: boardReducer,
+  topics: topicsReducer,
+  prev: prevReducer,
+  profilePhotoModal: profilePhotoModalReducer,
+  onBoard: onBoardReducer,
+  editBoardModal: editBoardModalReducer
 });

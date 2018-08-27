@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 var BoardSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   creator: {
     type: String
@@ -14,8 +13,7 @@ var BoardSchema = new mongoose.Schema({
   }],
   pins: [{
     image: {
-      data: Buffer,
-      contentType: String
+      type: String
     },
     url: {
       type: String
@@ -23,9 +21,15 @@ var BoardSchema = new mongoose.Schema({
     description: {
       type: String
     },
+    creator: {
+      type: String
+    },
     comments: [{
       comment: {type: String},
       user: {type: String}
+    }],
+    posters: [{
+      type: String
     }]
   }]
 });

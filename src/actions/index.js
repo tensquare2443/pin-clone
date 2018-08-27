@@ -22,8 +22,68 @@ import {
   SET_PIN,
   REMOVE_PIN,
   SET_TOPICS,
-  REMOVE_TOPICS
+  REMOVE_TOPICS,
+  SET_PREV,
+  REMOVE_PREV,
+  SET_BOARD,
+  REMOVE_BOARD,
+  OPEN_PROF_PHOTO_MODAL,
+  CLOSE_PROF_PHOTO_MODAL,
+  OPEN_EDIT_BOARD_MODAL,
+  CLOSE_EDIT_BOARD_MODAL,
+  ON_BOARD,
+  OFF_BOARD,
 } from 'actions/types';
+
+export function toggleEditBoardModal(toggle) {
+  if (toggle === 'open') {
+    return {type: OPEN_EDIT_BOARD_MODAL};
+  } else if (toggle === 'close') {
+    return {type: CLOSE_EDIT_BOARD_MODAL};
+  }
+}
+
+export function setOnBoard(onBoard) {
+  if (!onBoard) {
+    return {
+      type: OFF_BOARD
+    };
+  } else {
+    return {
+      type: ON_BOARD
+    };
+  }
+}
+
+export function toggleProfilePhotoModal(toggle) {
+  if (toggle === 'open') {
+    return {type: OPEN_PROF_PHOTO_MODAL};
+  } else if (toggle === 'close') {
+    return {type: CLOSE_PROF_PHOTO_MODAL};
+  }
+}
+
+export function setBoard(board) {
+  if (!board) {
+    return {type: REMOVE_BOARD};
+  } else {
+    return {
+      type: SET_BOARD,
+      payload: board
+    };
+  }
+}
+
+export function setPrev(prev) {
+  if (!prev) {
+    return {type: REMOVE_PREV};
+  } else {
+    return {
+      type: SET_PREV,
+      payload: prev
+    };
+  }
+}
 
 export function setTopics(topics) {
   if (!topics) {

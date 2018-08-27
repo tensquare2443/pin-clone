@@ -5,47 +5,84 @@ import {Link} from 'react-router-dom';
 import * as actions from 'actions';
 
 class Boards extends Component {
+  redirectToBoard(e) {
+    const _id = e.currentTarget.dataset.id;
+    var boardToSet;
+    var boards = this.props.user.boards;
+    for (var i = 0; i < boards.length; i++) {
+      if (boards[i]._id === _id) {
+        boardToSet = JSON.parse(JSON.stringify(boards[i]));
+        break;
+      }
+    }
+
+    this.props.createRedirect(`board/view/${_id}`);
+    this.props.setBoard(boardToSet);
+  }
   render() {
-    const boardsMapped = this.props.user.boards.map((board) => {
+    const boardsMapped = this.props.user.boards.map((board, index) => {
       var pinsSection = (length) => {
         if (length === 0) {
-          return null;
+          return (
+            <div className="create-sub-subtitle">0 Pins</div>
+          );
         } else if (length === 1) {
           return (
-            <div className="create-subtitle">{board.pins.length} Pin</div>
+            <div className="create-sub-subtitle">{board.pins.length} Pin</div>
           );
         } else {
           return (
-            <div className="create-subtitle">{board.pins.length} Pins</div>
+            <div className="create-sub-subtitle">{board.pins.length} Pins</div>
           );
         }
       };
+      var boardPinImg = (pins) => {
+        if (pins.length > 0 && pins[pins.length - 1].image) {
+          return (
+            <img src={pins[pins.length - 1].image} width="100%" height="100%" className="boards-mapped-board-img" alt=""/>
+          );
+        } else return null;
+      }
       return (
-        <Link
-          to={`/board/${board._id}`}
+        <div
+          onClick={this.redirectToBoard.bind(this)}
+          data-id={board._id}
+          key={index}
           style={{
-            textDecoration: 'none',
             alignContent: "flex-start",
             margin: '10px'
           }}
-          className="create-cont d-flex flex-column"
+          className="create-cont board-item d-flex flex-column"
         >
           <div className="content create-cont-content d-flex justify-content-center align-items-center">
+            {boardPinImg(board.pins)}
           </div>
           <div className="create-subtitle">{board.name}</div>
           {pinsSection(board.pins.length)}
-        </Link>
+        </div>
       );
     });
-    return(
-      <div>
-        <div className="boards-mapped-cont d-flex flex-row flex-wrap justify-content-center">
-          <Create subtitle="Create Board" style={{margin: '10px'}}/>
-          {boardsMapped}
+    if (this.props.user.boards && this.props.user.boards.length > 0) {
+      return(
+        <div>
+          <div className="boards-mapped-cont d-flex flex-row flex-wrap justify-content-center">
+            <Create subtitle="Create Board" style={{margin: '10px'}}/>
+            {boardsMapped}
+          </div>
         </div>
-        {JSON.stringify(this.props.user.boards)}
-      </div>
-    );
+      );
+    } else {
+      return(
+        <div>
+          <div style={{marginLeft: '50px'}} className="boards-mapped-cont d-none d-sm-flex flex-row flex-wrap justify-content-start">
+            <Create subtitle="Create Board" style={{margin: '10px'}}/>
+          </div>
+          <div className="boards-mapped-cont d-flex d-sm-none flex-row flex-wrap justify-content-start">
+            <Create subtitle="Create Board" style={{margin: '10px'}}/>
+          </div>
+        </div>
+      );
+    }
   }
 }
 

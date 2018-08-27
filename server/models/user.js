@@ -26,7 +26,27 @@ var UserSchema = new mongoose.Schema({
     type: String
   }],
   pins: [{
-    type: String
+    image: {
+      type: String
+    },
+    url: {
+      type: String,
+      maxLength: 1024
+    },
+    description: {
+      type: String,
+      maxLength: 1024
+    },
+    creator: {
+      type: String
+    },
+    comments: [{
+      comment: {type: String},
+      user: {type: String}
+    }],
+    posters: [{
+      type: String
+    }]
   }],
   boards: [{
     name: {
@@ -37,8 +57,7 @@ var UserSchema = new mongoose.Schema({
     }],
     pins: [{
       image: {
-        data: Buffer,
-        contentType: String
+        type: String
       },
       url: {
         type: String
@@ -46,11 +65,27 @@ var UserSchema = new mongoose.Schema({
       description: {
         type: String
       },
+      creator: {
+        type: String
+      },
       comments: [{
         comment: {type: String},
         user: {type: String}
+      }],
+      posters: [{
+        type: String
       }]
     }]
+  }],
+  usersFollowing: [{
+    type: String
+  }],
+  boardsFollowing: [{
+    name: {type: String},
+    creator: {type: String}
+  }],
+  followedBy: [{
+    type: String
   }]
 });
 
