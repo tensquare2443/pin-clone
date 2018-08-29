@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import * as actions from 'actions';
+import {
+  redirector,
+  manualNavigationUserCheck
+} from 'helper-functions';
 
 class CreateBoard extends Component {
   constructor(props) {
@@ -10,6 +14,12 @@ class CreateBoard extends Component {
       createBoardNameInput: ''
     };
     this.nameInputChange = this.nameInputChange.bind(this);
+    this.redirector = redirector.bind(this);
+    this.manualNavigationUserCheck = manualNavigationUserCheck.bind(this);
+  }
+  cancelCreateBoard() {
+    this.props.createRedirect(`profile/${this.props.user.email}/boards`);
+    this.setState({createBoardNameInput: ''});
   }
   formSubmit(e) {
     e.preventDefault();
@@ -52,18 +62,8 @@ class CreateBoard extends Component {
     this.props.createRedirect(`profile/${this.props.user.email}/boards`);
   }
   render() {
-    if (this.props.redirect === 'board/new') {
-      this.props.removeRedirect();
-    } else if (this.props.redirect) {
-      return <Redirect to={`/${this.props.redirect}`}/>
-    }
-    if (!this.props.user) {
-      if (window.localStorage.getItem('pclUser')) {
-        this.props.createRedirect('log-in');
-      } else {
-        this.props.createRedirect('sign-up');
-      }
-      return null;
+    if (this.redirector('board/new') !== undefined) {
+      return this.redirector('board/new');
     }
     var submitBtn = () => {
       if (this.state.createBoardNameInput.length > 0) {
@@ -103,7 +103,13 @@ class CreateBoard extends Component {
                 style={{margin: "5px", padding: "5px"}}
                 className="d-flex justify-content-end align-items-center"
               >
-                <button className="cancel-create-board-btn">Cancel</button>
+                <button
+                  onClick={this.cancelCreateBoard.bind(this)}
+                  type="button"
+                  className="cancel-create-board-btn"
+                >
+                  Cancel
+                </button>
                 {submitBtn()}
               </div>
             </div>

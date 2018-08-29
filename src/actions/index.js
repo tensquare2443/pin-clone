@@ -33,7 +33,21 @@ import {
   CLOSE_EDIT_BOARD_MODAL,
   ON_BOARD,
   OFF_BOARD,
+  SET_USERS_FOLLOWING,
+  REMOVE_USERS_FOLLOWING,
+  LOG_OUT
 } from 'actions/types';
+
+export function setUsersFollowing(usersFollowing) {
+  if (!usersFollowing) {
+    return {type: REMOVE_USERS_FOLLOWING};
+  } else {
+    return {
+      type: SET_USERS_FOLLOWING,
+      payload: usersFollowing
+    };
+  }
+}
 
 export function toggleEditBoardModal(toggle) {
   if (toggle === 'open') {
@@ -163,10 +177,14 @@ export function logInFormChange(logInForm) {
 }
 
 export function setUser(user) {
-  return {
-    type: SET_USER,
-    payload: user
-  };
+  if (!user) {
+    return {type: LOG_OUT};
+  } else {
+    return {
+      type: SET_USER,
+      payload: user
+    };
+  }
 }
 
 export function signIn(user) {

@@ -4,6 +4,9 @@ import * as actions from 'actions';
 import {Redirect, Link} from 'react-router-dom';
 
 class SignUp extends Component {
+  componentWillUnmount() {
+    this.props.signUpReset();
+  }
   signUpSubmit(e) {
     e.preventDefault();
 
@@ -77,22 +80,22 @@ class SignUp extends Component {
           <div className="sign-up-form-item p-reg m-reg">
             <input onChange={this.props.signUpChange.bind(this)} value={this.props.signUpForm.email.value} className={emailClass} type="text" placeholder="Email"/>
             {email.validity.length > 0 && email.validity !== 'valid' ?
-              <div>{email.validity}</div>
+              <div className="sign-up-form-validity">{email.validity}</div>
             : null}
           </div>
           <div className="sign-up-form-item p-reg m-reg">
             <input onChange={this.props.signUpChange.bind(this)} value={this.props.signUpForm.password.value} className={passwordClass} type="password" placeholder="Password"/>
             {password.validity.length > 0 && password.validity !== 'valid' ?
-              <div>{password.validity}</div>
+              <div className="sign-up-form-validity">{password.validity}</div>
             : null}
           </div>
           <div className="sign-up-form-item p-reg m-reg">
             <input onChange={this.props.signUpChange.bind(this)} value={this.props.signUpForm.age.value} className={ageClass} type="text" placeholder="Age"/>
             {age.validity.length > 0 && age.validity !== 'valid' ?
-              <div>{age.validity}</div>
+              <div className="sign-up-form-validity">{age.validity}</div>
             : null}
             {email.validity === 'valid' && password.validity === 'valid' && age.validity === 'valid' ?
-              <div>Sign Up Successful!</div>
+              <div className="sign-up-form-validity">Sign Up Successful!</div>
             : null}
           </div>
           <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>

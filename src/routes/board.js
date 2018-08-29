@@ -4,12 +4,24 @@ import {Redirect, Link} from 'react-router-dom';
 import * as actions from 'actions';
 import TopNav from 'components/top-nav';
 import EditBoardModal from 'components/edit-board-modal';
+import {
+  urlDisplayFormatted,
+  urlLinkFormatted,
+  manualNavigationUserCheck,
+  redirector
+} from 'helper-functions';
 
 class Board extends Component {
+  constructor(props) {
+    super(props);
+    this.manualNavigationUserCheck = manualNavigationUserCheck.bind(this);
+    this.redirector = redirector.bind(this);
+  }
   editBoard() {
     this.props.toggleEditBoardModal('open');
   }
   redirectToPinPage(e) {
+    if (e.target.dataset.id === 'outboundLinkButton') {return;}
     var pinId = e.currentTarget.dataset.id;
     var pin;
 
@@ -28,7 +40,16 @@ class Board extends Component {
   addPinToBoard() {
     this.props.createRedirect('pin/new');
   }
+  backToBoards() {
+    // alert('back')
+    this.props.createRedirect(`profile/${this.props.user.email}/boards`);
+  }
   render() {
+  // if (this.redirector('board/view/', null, true) !== undefined) {
+  //   alert('ya')
+  //   return this.redirector(`profile/${this.props.user.email}/boards`);
+  // }
+  // alert('ya2')
     if (this.props.redirect && this.props.redirect.includes('board/view/')) {
       this.props.removeRedirect();
     } else if (this.props.redirect) {
@@ -36,24 +57,20 @@ class Board extends Component {
     }
     if (!this.props.user) {
       if (window.localStorage.getItem('pclUser')) {
-        this.props.createRedirect('log-in');
-      } else this.props.createRedirect('sign-up');
+        var email = JSON.parse(window.localStorage.pclUser).email;
+        var password = JSON.parse(window.localStorage.pclUser).password;
+        var path = window.location.pathname;
+        var boardId = path.split('/')[path.split('/').length - 1];
+
+        this.manualNavigationUserCheck(email, password, null, boardId);
+      } else {
+        alert('5');
+        this.props.createRedirect('sign-up');
+      }
       return null;
     }
 
     const pinsMapped = (pins) => {
-      var urlLinkFormatted = (url) => {
-        if (url.substr(0,7) !== 'http://' && url.substr(0,8) !== 'https://') {
-          return `http://${url}`;
-        } else return url;
-      };
-      var urlDisplayFormatted = (url) => {
-        url = url.replace('https://', '');
-        url = url.replace('http://', '');
-        if (url.includes('/')) {
-          return url.split('/')[0];
-        } else return url;
-      };
       return pins.map((pin, index) => {
         return (
           <div
@@ -101,6 +118,25 @@ class Board extends Component {
           </div>
         : null}
         <TopNav/>
+
+
+        <div className="d-none d-sm-block">
+          <div onClick={this.backToBoards.bind(this)} style={{display: 'inline-block'}}>
+            <button className="back-to-boards-btn">
+              {'<'} Back to boards
+            </button>
+          </div>
+        </div>
+
+        <div className="d-block d-sm-none">
+          <div onClick={this.backToBoards.bind(this)} style={{display: 'inline-block'}}>
+            <button className="back-to-boards-btn">
+              {'<'} Back to boards
+            </button>
+          </div>
+        </div>
+
+
         <div
           className="board-container-lg d-none d-sm-flex flex-row flex-wrap justify-content-between"
         >
@@ -128,7 +164,7 @@ class Board extends Component {
           <button onClick={this.editBoard.bind(this)} className="edit-board-btn">Edit Board</button>
         </div>
 
-        {this.props.board.pins.length > 0 ?
+        {this.props.board.pins && this.props.board.pins.length > 0 ?
           <div className="boards-mapped-cont d-flex flex-row flex-wrap justify-content-center">
             {pinsMapped(this.props.board.pins)}
           </div>

@@ -2,13 +2,25 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actions from 'actions';
+import {
+  scrollTop,
+  greyBg,
+  whiteBg,
+  urlLinkFormatted,
+  manualNavigationUserCheck
+} from 'helper-functions';
 
 class Pin extends Component {
+  constructor(props) {
+    super(props);
+    this.manualNavigationUserCheck = manualNavigationUserCheck.bind(this);
+  }
   componentDidMount() {
-    document.getElementsByTagName('body')[0].style.backgroundColor = '#ECECEC';
+    scrollTop();
+    greyBg();
   }
   componentWillUnmount() {
-    document.getElementsByTagName('body')[0].style.backgroundColor = '#fff';
+    whiteBg();
     if (this.props.onBoard) {
       this.props.setOnBoard();
     }
@@ -17,7 +29,6 @@ class Pin extends Component {
     var user = JSON.parse(JSON.stringify(this.props.user));
 
     if (this.props.onBoard) {
-      alert('remove pin from board');
       var board = JSON.parse(JSON.stringify(this.props.board));
       for (var l = 0; l < board.pins.length; l++) {
         if (board.pins[l]._id === this.props.pin._id) {
@@ -69,7 +80,6 @@ class Pin extends Component {
       //update user in db
 
     } else {
-      alert('remove pin');
 
       for (var i = 0; i < user.pins.length; i++) {
         if (user.pins[i]._id === this.props.pin._id) {
@@ -131,10 +141,19 @@ class Pin extends Component {
     }
     if (!this.props.user) {
       if (window.localStorage.getItem('pclUser')) {
-        this.props.createRedirect('log-in');
+        var email = JSON.parse(window.localStorage.pclUser).email;
+        var password = JSON.parse(window.localStorage.pclUser).password;
+        var path = window.location.pathname;
+        var pinId = path.split('/')[path.split('/').length - 1];
+
+        this.manualNavigationUserCheck(email, password, null, null, pinId);
+        this.props.setPrev('home');
+
+        // this.props.createRedirect('log-in');
       } else this.props.createRedirect('sign-up');
       return null;
     }
+    if (!this.props.pin) {return null;}
     const commentsMapped = (comments) => {
       return comments.map((comment) => {
         return <div>comment text here!</div>
@@ -146,11 +165,6 @@ class Pin extends Component {
       url = url.replace('www.', '');
       if (url.includes('/')) {
         return url.split('/')[0];
-      } else return url;
-    };
-    const urlLinkFormatted = (url) => {
-      if (url.substr(0,7) !== 'http://' && url.substr(0,8) !== 'https://') {
-        return `http://${url}`;
       } else return url;
     };
     const userPinIds = this.props.user.pins.map((pin) => pin._id);
@@ -199,6 +213,11 @@ class Pin extends Component {
                 </button>
               </a>
             </div>
+            {this.props.pin.description ?
+              <div className="pin-page-pin-desc">
+                {this.props.pin.description}
+              </div>
+            : null}
             <div className="pin-route-bottom-section-row d-flex flex-row justify-content-between align-items-center">
               <h3>Comments</h3>
               <div><img src={require('../img/down-arrow.png')} width="36px" alt=""/></div>

@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import * as actions from 'actions';
+import {
+  redirector,
+  manualNavigationUserCheck
+} from 'helper-functions';
 
 class CreatePin extends Component {
   constructor(props) {
@@ -16,8 +20,13 @@ class CreatePin extends Component {
       createBoardInnerContDisplay: {
         display: 'none'
       },
+      loadingDisplay: {
+        display: 'none'
+      },
       createBoardNameInput: ''
     };
+    this.redirector = redirector.bind(this);
+    this.manualNavigationUserCheck = manualNavigationUserCheck.bind(this);
   }
   backClick() {
     this.props.createRedirect(`profile/${this.props.user.email}/pins`);
@@ -113,7 +122,6 @@ class CreatePin extends Component {
   }
   chooseBoardInstead(e) {
     e.preventDefault();
-    alert('back to choose board');
     this.setState({
       chooseBoardInnerContDisplay: {
         display: 'block'
@@ -143,8 +151,11 @@ class CreatePin extends Component {
     pinFormData.append('user', JSON.stringify({oldUser}));
     pinFormData.append('board', JSON.stringify({oldBoard}));
 
-    alert('create, add to board')
-
+    this.setState({
+      loadingDisplay: {
+        display: 'block'
+      }
+    });
     fetch('http://localhost:3001/pins/create-and-add-to-board', {
       method: "POST",
       mode: 'cors',
@@ -153,6 +164,9 @@ class CreatePin extends Component {
       this.props.setUser(json.userDoc);
       this.props.createRedirect(`profile/${this.props.user.email}/pins`);
       this.props.createPinFormChange();
+      this.setState({
+        loadingDisplay: {display: 'none'}
+      });
     }).catch((e) => alert(`e: ${e}`));
 
     //you need to first save the pin and get the id, so do that on the back end.
@@ -161,7 +175,6 @@ class CreatePin extends Component {
   }
   createBoardSubmit(e) {
     e.preventDefault();
-    alert('submitting new board');
     var boardName = this.state.createBoardNameInput;
     var oldUser = JSON.parse(JSON.stringify(this.props.user));
 
@@ -171,20 +184,26 @@ class CreatePin extends Component {
     pinFormData.append('user', JSON.stringify({oldUser}));
     pinFormData.append('boardName', boardName);
 
+    //SWIRL
+
+
+
+    this.setState({
+      loadingDisplay: {
+        display: 'block'
+      }
+    });
     fetch('http://localhost:3001/pins/create-and-create-new-board', {
       method: "POST",
       mode: 'cors',
       body: pinFormData
     }).then((res) => res.json()).then((json) => {
-      alert(JSON.stringify(json));
-
       this.props.setUser(json.userDoc);
       this.props.createRedirect(`profile/${this.props.user.email}/pins`);
       this.props.createPinFormChange();
-      //json.userDoc is updated userDoc
-      //save pin to: userDoc.pins, userDoc.boards[myboard].pins, pins
-      //first save pin and get the id.
-
+      this.setState({
+        loadingDisplay: {display: 'none'}
+      });
     }).catch((e) => alert(`e: ${e}`));
   }
   nameInputChange(e) {
@@ -223,19 +242,10 @@ class CreatePin extends Component {
   }
 
   render() {
-    if (this.props.redirect === 'pin/new') {
-      this.props.removeRedirect();
-    } else if (this.props.redirect) {
-      return <Redirect to={`/${this.props.redirect}`}/>
+    if (this.redirector('pin/new') !== undefined) {
+      return this.redirector('pin/new');
     }
-    if (!this.props.user) {
-      if (window.localStorage.getItem('pclUser')) {
-        this.props.createRedirect('log-in');
-      } else {
-        this.props.createRedirect('sign-up');
-      }
-      return null;
-    }
+
     const myBoardsMapped = this.props.user.boards.map((board) => {
       return (
         <div
@@ -276,24 +286,57 @@ class CreatePin extends Component {
           <div className="create-pin-top-cont f-bold d-flex justify-content-center align-items-center">
             <div className="m-reg p-reg">Choose Board</div>
           </div>
-          <div className="my-boards-list-cont">
-            {myBoardsMapped}
-            <div
-              onClick={this.openCreateBoardForm.bind(this)}
-              className="my-boards-list-item d-flex flex-row justify-content-between align-items-center"
-            >
-              <div className="save-pin-to-board-name d-flex flex-row align-items-center">
-                <img style={{marginRight: '3px'}} src={require('../img/plus-black.png')} width="40px" alt=""/>
-                <span>Create Board</span>
+
+
+
+          {this.state.loadingDisplay.display === 'block' ?
+            <div className="choose-board-loader-cont">
+              <img
+                className="choose-board-loader"
+                src={require('../img/loader.gif')}
+                width="36px"
+                height="36px"
+                alt=""
+              />
+            </div>
+          :
+            <div className="my-boards-list-cont">
+              {myBoardsMapped}
+              <div
+                onClick={this.openCreateBoardForm.bind(this)}
+                className="my-boards-list-item d-flex flex-row justify-content-between align-items-center"
+              >
+                <div className="save-pin-to-board-name d-flex flex-row align-items-center">
+                  <img style={{marginRight: '3px'}} src={require('../img/plus-black.png')} width="40px" alt=""/>
+                  <span>Create Board</span>
+                </div>
               </div>
             </div>
-          </div>
+          }
+
+
+
+
+
         </div>
 
         <div className="create-pin-inner-cont" style={this.state.createBoardInnerContDisplay}>
           <div className="create-pin-top-cont f-bold d-flex justify-content-center align-items-center">
             <div className="m-reg p-reg">Create Board</div>
           </div>
+
+
+          {this.state.loadingDisplay.display === 'block' ?
+            <div className="choose-board-loader-cont">
+              <img
+                className="choose-board-loader"
+                src={require('../img/loader.gif')}
+                width="36px"
+                height="36px"
+                alt=""
+              />
+            </div>
+          :
           <form onSubmit={this.createBoardSubmit.bind(this)}>
             <div className="create-board-name-group d-flex flex-row justify-content-between align-items-center">
               <label className="create-board-name-label" htmlFor="createBoardNameInput">Name</label>
@@ -317,6 +360,9 @@ class CreatePin extends Component {
               </div>
             </div>
           </form>
+          }
+
+
         </div>
 
           <div className="create-pin-inner-cont" style={this.state.createPinInnerContDisplay}>
@@ -398,7 +444,11 @@ class CreatePin extends Component {
                   style={{margin: "5px", padding: "5px"}}
                   className="d-flex justify-content-end align-items-center"
                 >
-                  <button className="btn-sec" type="submit">
+                  <button style={{
+                    padding: '10px',
+                    fontSize: '15px',
+                    cursor: 'pointer'
+                  }} className="btn-sec" type="submit">
                     Done
                   </button>
                 </div>

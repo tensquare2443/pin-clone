@@ -11,8 +11,17 @@ import TopNav from 'components/top-nav';
 import Boards from 'routes/following/boards';
 import People from 'routes/following/people';
 import Recommended from 'routes/following/recommended';
+import {
+  manualNavigationUserCheck,
+  redirector
+} from 'helper-functions';
 
 class Following extends Component {
+  constructor(props) {
+    super(props);
+    this.manualNavigationUserCheck = manualNavigationUserCheck.bind(this);
+    this.redirector = redirector.bind(this);
+  }
   componentWillUnmount() {
     this.props.setUsers();
   }
@@ -28,23 +37,33 @@ class Following extends Component {
     }).catch((e) => alert(`e: ${e}`));
   }
   render() {
-    if (this.props.redirect === 'following') {
-      this.props.removeRedirect();
-    } else if (this.props.redirect) {
-      return <Redirect to={`/${this.props.redirect}`}/>
+    if (this.redirector('following') !== undefined) {
+      return this.redirector('following');
     }
-    if (!this.props.user) {
-      if (window.localStorage.getItem('pclUser')) {
-        this.props.createRedirect('log-in');
-      } else this.props.createRedirect('sign-up');
-      return null;
-    }
+    // if (this.props.redirect === 'following') {
+    //   this.props.removeRedirect();
+    // } else if (this.props.redirect) {
+    //   return <Redirect to={`/${this.props.redirect}`}/>
+    // }
+    // if (!this.props.user) {
+    //   if (window.localStorage.getItem('pclUser')) {
+    //     this.props.createRedirect('log-in');
+    //   } else this.props.createRedirect('sign-up');
+    //   return null;
+    // }
 
     var buttonClass = (button) => {
       if (window.location.pathname.split('/')[2] === button) {
         return 'nav-button-active';
       } else {
         return 'nav-button';
+      }
+    };
+    var profilePhoto = () => {
+      if (this.props.user.photo) {
+        return this.props.user.photo;
+      } else {
+        return require('../../img/profile-unknown.png');
       }
     };
 
@@ -81,7 +100,16 @@ class Following extends Component {
                 <div style={{fontSize: "44px", fontWeight: "bold", paddingBottom: "3px"}}>Following</div>
               </div>
               <div>
-                <img src={require('../../img/profile-unknown.png')} alt="" height="70px" width="70px"/>
+                <img
+                  style={{
+                    objectFit: 'cover',
+                    borderRadius: '100px'
+                  }}
+                  src={profilePhoto()}
+                  alt=""
+                  height="70px"
+                  width="70px"
+                />
               </div>
             </div>
             <div className="d-flex flex-row flex-wrap d-sm-none justify-content-center align-items-center" style={{margin: "auto", padding: "10px", paddingTop: "0px"}}>
@@ -89,7 +117,16 @@ class Following extends Component {
                 <div style={{fontSize: "36px", fontWeight: "bold", paddingBottom: "3px"}}>Following</div>
               </div>
               <div style={{padding: "20px"}}>
-                <img src={require('../../img/profile-unknown.png')} alt="" height="70px" width="70px"/>
+                <img
+                  style={{
+                    objectFit: 'cover',
+                    borderRadius: '100px'
+                  }}
+                  src={profilePhoto()}
+                  alt=""
+                  height="70px"
+                  width="70px"
+                />
               </div>
             </div>
             <div className="d-none d-sm-flex flex-row align-items-center" style={{margin: "auto", padding: "30px"}}>

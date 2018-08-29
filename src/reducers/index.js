@@ -14,6 +14,7 @@ import boardReducer from 'reducers/board';
 import profilePhotoModalReducer from 'reducers/profile-photo-modal';
 import onBoardReducer from 'reducers/on-board';
 import editBoardModalReducer from 'reducers/edit-board-modal';
+import usersFollowingReducer from 'reducers/users-following';
 
 export default combineReducers({
   user: userReducer,
@@ -30,5 +31,6 @@ export default combineReducers({
   prev: prevReducer,
   profilePhotoModal: profilePhotoModalReducer,
   onBoard: onBoardReducer,
-  editBoardModal: editBoardModalReducer
+  editBoardModal: editBoardModalReducer,
+  usersFollowing: usersFollowingReducer
 });

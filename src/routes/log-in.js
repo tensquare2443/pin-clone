@@ -4,6 +4,9 @@ import * as actions from 'actions';
 import {Redirect, Link} from 'react-router-dom';
 
 class LogIn extends Component {
+  componentWillUnmount() {
+    this.props.logInFormReset();
+  }
   demoLogin() {
     fetch('http://localhost:3001/user/login', {
       method: 'POST',
@@ -19,6 +22,7 @@ class LogIn extends Component {
       this.props.logInFormReset();
       this.props.signIn(json.userDoc);
       this.props.createRedirect('home');
+      window.localStorage.setItem('pclUser', JSON.stringify(json.userDoc));
       return;
     }).catch((e) => {
       alert(`demo error: ${e}`);
@@ -119,7 +123,7 @@ class LogIn extends Component {
               this.props.logInFormChange(logInForm);
             }} value={this.props.logInForm.email.value} className={emailClass} type="text" placeholder="Email"/>
             {email.validity.length > 0 && email.validity !== 'valid' ?
-              <div>{email.validity}</div>
+              <div className="sign-up-form-validity">{email.validity}</div>
             : null}
           </div>
           <div className="sign-up-form-item p-reg m-reg">
@@ -129,7 +133,7 @@ class LogIn extends Component {
               this.props.logInFormChange(logInForm);
             }} value={this.props.logInForm.password.value} className={passwordClass} type="password" placeholder="Password"/>
             {password.validity.length > 0 && password.validity !== 'valid' ?
-              <div>{password.validity}</div>
+              <div className="sign-up-form-validity">{password.validity}</div>
             : null}
           </div>
           <div className="sign-up-form-item p-reg m-reg">

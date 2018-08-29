@@ -1,6 +1,6 @@
 import {
   SIGN_IN,
-  SIGN_OUT,
+  LOG_OUT,
   SET_USER
 } from 'actions/types';
 
@@ -12,7 +12,7 @@ export default function(state = false, action) {
     case SET_USER:
       //set user here
         return action.payload;
-    case SIGN_OUT:
+    case LOG_OUT:
     //sign out here
       return false;
     default:

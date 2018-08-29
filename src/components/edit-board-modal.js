@@ -50,7 +50,6 @@ class EditBoardModal extends Component {
 
   }
   deleteBoard() {
-
     var boardId = this.props.board._id;
     var user = JSON.parse(JSON.stringify(this.props.user));
     var deletedBoardPins = JSON.parse(JSON.stringify(this.props.board.pins));
@@ -70,7 +69,6 @@ class EditBoardModal extends Component {
     }
 
     var pinsToDelete = [];
-
     for (var l = 0; l < deletedBoardPins.length; l++) {
       var anotherCopy = false;
       for (var m = 0; m < allPinsToCheck.length; m++) {
@@ -86,7 +84,6 @@ class EditBoardModal extends Component {
     pinsToDelete = pinsToDelete.map((pin) => pin._id);
 
     var updatedUserPins = [];
-    alert(pinsToDelete.length);
     if (pinsToDelete.length > 0) {
       //there was only one instance of this pin, and it was on the baord being deleted now. so now delete these in the user obj.
       user.pins.forEach((pin) => {
@@ -107,7 +104,6 @@ class EditBoardModal extends Component {
           pinsToDelete
         })
       }).then((res) => res.json()).then((json) => {
-        alert(JSON.stringify(json));
         this.props.setUser(json.userDoc);
         this.props.createRedirect(`profile/${this.props.user.email}/boards`);
         this.props.setBoard();
@@ -124,11 +120,12 @@ class EditBoardModal extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({user})
-      }).then((json) => {
+      }).then((res) => res.json()).then((json) => {
         this.props.setUser(json.userDoc);
         this.props.setBoard();
         this.props.createRedirect(`profile/${this.props.user.email}/boards`);
-      })
+        this.props.toggleEditBoardModal('close');
+      }).catch((e) => alert(`e: ${e}`));
     }
 
 

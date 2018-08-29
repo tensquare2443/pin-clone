@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 var BoardSchema = new mongoose.Schema({
   name: {
-    type: String,
-    required: true
+    type: String
   },
   creator: {
     type: String

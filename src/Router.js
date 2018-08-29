@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import Main from 'routes/main';
 import Home from 'routes/home';
 import SignUp from 'routes/sign-up';
@@ -27,6 +27,7 @@ class Router extends Component {
         <Route path="/board/view" component={Board}/>
         <Route path="/pin/save/choose-board" component={ChooseBoard}/>
         <Route path="/pin" component={Pin}/>
+        <Route path="*" render={() => <Redirect to="/home"/>}/>
       </Switch>
     );
   }

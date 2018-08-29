@@ -7,7 +7,21 @@ class Topics extends Component {
     fetch('http://localhost:3001/topics').then((res) => {
       return res.json();
     }).then((json) => {
-      this.props.setTopics(json.topicDocs);
+      var topicDocs = json.topicDocs;
+      var topicsOrdered = [];
+      var topicsNotFollowed = [];
+
+      topicDocs.forEach((topicDoc) => {
+        if (this.props.user.topics.includes(topicDoc.name)) {
+          topicsOrdered.push(topicDoc);
+        } else {
+          topicsNotFollowed.push(topicDoc);
+        }
+      });
+
+      topicsOrdered = topicsOrdered.concat(topicsNotFollowed);
+
+      this.props.setTopics(topicsOrdered);
     }).catch((e) => alert(JSON.stringify(`e: ${e}`)));
   }
   componentWillUnmount() {

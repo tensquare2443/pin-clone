@@ -3,8 +3,17 @@ import Create from 'components/create';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import * as actions from 'actions';
+import {
+  manualNavigationUserCheck,
+  redirector
+} from 'helper-functions';
 
 class Boards extends Component {
+  constructor(props) {
+    super(props);
+    this.manualNavigationUserCheck = manualNavigationUserCheck.bind(this);
+    this.redirector = redirector.bind(this);
+  }
   redirectToBoard(e) {
     const _id = e.currentTarget.dataset.id;
     var boardToSet;
@@ -20,6 +29,9 @@ class Boards extends Component {
     this.props.setBoard(boardToSet);
   }
   render() {
+    // if (this.redirector(`profile/${this.props.user.email}/boards`) !== undefined) {
+    //   return this.redirector(`profile/${this.props.user.email}/boards`);
+    // }
     const boardsMapped = this.props.user.boards.map((board, index) => {
       var pinsSection = (length) => {
         if (length === 0) {

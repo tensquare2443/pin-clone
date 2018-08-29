@@ -3,9 +3,23 @@ import {connect} from 'react-redux';
 import Create from 'components/create';
 import * as actions from 'actions';
 import {encode} from 'base64-arraybuffer';
+import {
+  urlDisplayFormatted,
+  urlLinkFormatted,
+  manualNavigationUserCheck,
+  redirector
+} from 'helper-functions';
 
 class Pins extends Component {
+  constructor(props) {
+    super(props);
+    this.manualNavigationUserCheck = manualNavigationUserCheck.bind(this);
+    this.redirector = redirector.bind(this);
+  }
   createPinRedirect(e) {
+    if (e.target.dataset.id === 'outboundLinkButton') {
+      return;
+    }
     const _id = e.currentTarget.dataset.id;
     var pinToSet;
 
@@ -20,6 +34,9 @@ class Pins extends Component {
     this.props.setPrev(`profile/${this.props.user.email}/pins`);
   }
   render() {
+    // if (this.redirector(`profile/${this.props.user.email}/pins`) !== undefined) {
+    //   return this.redirector(`profile/${this.props.user.email}/pins`);
+    // }
     const pinsMapped = this.props.user.pins.map((pin, index) => {
       return (
         <div
@@ -34,8 +51,20 @@ class Pins extends Component {
           className="create-cont pin-item d-flex flex-column"
         >
           <div className="content create-cont-content d-flex justify-content-center align-items-center">
-            <img src={pin.image} className="pins-content-pin-img" width="100%" height="100%" alt=""/>
+            <img style={{borderRadius: '8px'}} src={pin.image} className="pins-content-pin-img" width="100%" height="100%" alt=""/>
           </div>
+
+          <div className="home-item-link-btn-cont">
+            <a data-id="outboundLink" href={urlLinkFormatted(pin.url)} target="_blank">
+              <button
+                data-id="outboundLinkButton"
+                className="home-item-link-btn"
+              >
+                {urlDisplayFormatted(pin.url)}
+              </button>
+            </a>
+          </div>
+
         </div>
       );
     });

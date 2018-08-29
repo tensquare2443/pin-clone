@@ -23,6 +23,18 @@ app.use(cors());
 var multer = require('multer');
 var upload = multer();
 
+app.post('/profile-photo/remove', (req, res) => {
+  var _id = req.body._id;
+
+  User.findByIdAndUpdate(_id, {$unset: {photo: ''}}, {new: true}).then((userDoc) => {
+    res.send({userDoc});
+  }).catch((e) => {
+    console.log({e});
+
+    res.send({e});
+  })
+});
+
 app.post('/pins/filter', (req, res) => {
   var allPinDocs = [];
   var query = new RegExp(req.body.filterCriteria, 'i');
@@ -92,8 +104,6 @@ app.post('/user/follow', (req, res) => {
 app.post('/user/update-and-check-pins-collection', (req, res) => {
   var user = req.body.user;
   var pinsToCheck = req.body.pinsToDelete;
-
-  console.log(pinsToCheck);
 
   pinsToCheck.forEach((pinId, index) => {
 
@@ -316,22 +326,67 @@ app.get('/topics/new/:topic', (req, res) => {
   })
 });
 
+
+
+app.post('/users/following', (req, res) => {
+  var usersFollowing = req.body.usersFollowing;
+
+  // usersFollowing.forEach((userFollowing) => {
+    User.find({email: {$in: usersFollowing}}).then((userDocs) => {
+      userDocs = userDocs.map((userDoc) => {
+        var fieldsNeeded = {
+          _id: userDoc._id,
+          email: userDoc.email,
+          photo: userDoc.photo
+        };
+        if (userDoc.followedBy) {
+          fieldsNeeded.followedBy = userDoc.followedBy;
+        } else fieldsNeeded.followedBy = [];
+        return fieldsNeeded;
+      });
+
+      res.send({userDocs});
+    }).catch((e) => {
+      console.log({e});
+
+      res.send({e});
+    });
+  // });
+});
+
+
+
 app.get('/users/all', (req, res) => {
   User.find({}).then((userDocs) => {
     userDocs = userDocs.map((userDoc) => {
-      return {
-        topics: userDoc.topics,
-        pins: userDoc.pins,
+      var fieldsNeeded = {
         _id: userDoc._id,
         email: userDoc.email,
         photo: userDoc.photo
       };
+      if (userDoc.followedBy) {
+        fieldsNeeded.followedBy = userDoc.followedBy;
+      } else fieldsNeeded.followedBy = [];
+      return fieldsNeeded;
     });
     res.send({userDocs});
   }).catch((e) => {
     console.log({e});
     res.send({e});
   })
+});
+
+app.post('/pins/get', (req, res) => {
+  var _id = req.body.pinId;
+
+  Pin.findOne({_id}).then((pinDoc) => {
+    console.log({pinDoc});
+    res.send({pinDoc});
+  }).catch((e) => {
+    console.log({e});
+
+    res.send({e});
+  });
 });
 
 app.get('/pins/get', (req, res) => {
@@ -434,13 +489,6 @@ app.post('/pins/create-and-add-to-board', upload.single('image'), (req, res) => 
   var description = req.body.description[0];
   var base64Image = encode(req.file.buffer);
 
-  // console.log(user);
-  // console.log(board);
-  // console.log(url);
-  // console.log(description);
-  // return;
-
-
   axios({
     url: 'https://api.imgur.com/3/image',
     method: 'post',
@@ -460,9 +508,6 @@ app.post('/pins/create-and-add-to-board', upload.single('image'), (req, res) => 
       comments: [],
       posters: [user.email]
     };
-    console.log(pin.posters);
-    console.log(pin.posters);
-    console.log(pin.posters);
 
     return new Pin(pin).save();
   }).then((pinDoc) => {
@@ -560,8 +605,20 @@ app.post('/pins/new', upload.single('image'), (req, res) => {
 
 });
 
+app.post('/user/get', (req, res) => {
+  var email = req.body.email;
+  var password = req.body.password;
 
+  User.findOne({email, password}).then((userDoc) => {
+    if (!userDoc) {return res.send({error: '400'});}
 
+    res.send({userDoc});
+  }).catch((e) => {
+    console.log({e});
+
+    res.send({e});
+  });
+});
 
 app.post('/user/login', (req, res) => {
   User.findOne({email: req.body.email}).then((userDoc) => {
@@ -622,7 +679,6 @@ app.post('/user/new', (req, res) => {
   if (validateEmail(email)) {
     errors.email = false;
     if (!errors.password && !errors.age) {
-      console.log('no pword no age errros');
       age = age/1;
 
       new User({email,password,age}).save().then((doc) => {
